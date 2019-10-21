@@ -5,7 +5,12 @@ import {WelcomeScreen} from '../welcome-screen/welcome-screen.jsx';
 
 export const App = (props) => {
   const {gameTime, errorCount} = props;
-  return <WelcomeScreen gameTime={gameTime} errorCount={errorCount} />;
+
+  const buttonClickHandler = () => {
+    return null;
+  };
+
+  return <WelcomeScreen gameTime={gameTime} errorCount={errorCount} onButtonClickHandler={buttonClickHandler} />;
 };
 
 App.propTypes = {
