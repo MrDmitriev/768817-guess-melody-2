@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {AudioPlayer} from '../audio-player/audio-player.jsx';
+
 export class GuessGenre extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -10,7 +12,9 @@ export class GuessGenre extends React.PureComponent {
       answer2: false,
       answer3: false,
       answer4: false,
+      activePlayer: -1,
     };
+
   }
 
   render() {
@@ -63,10 +67,13 @@ export class GuessGenre extends React.PureComponent {
               currentQuestion.answers.map((item, i) => {
                 return (
                   <div className="track" key={`answer-${i + 1}`}>
-                    <button className="track__button track__button--play" type="button"></button>
-                    <div className="track__status">
-                      <audio src={item.src}></audio>
-                    </div>
+                    <AudioPlayer
+                      src={item.src}
+                      isPlaying={i === this.state.activePlayer}
+                      onPlayButtonClick={() => this.setState({
+                        activePlayer: this.state.activePlayer === i ? -1 : i
+                      })}
+                    />
                     <div className="game__answer">
                       <input
                         className="game__input visually-hidden"

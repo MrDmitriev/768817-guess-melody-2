@@ -4,19 +4,19 @@ export const questions = [
     genre: `rock`,
     answers: [
       {
-        src: `https://upload.wikimedia.org/wikipedia/commons/1/1f/Uganda_flag_and_national_anthem_-_Oh_Uganda_Land_o.ogg`,
+        src: `https://dll.z1.fm/music/9/6f/splin_-_doch_samuraja_(zvukoff.ru).mp3`,
         genre: `rock`,
       },
       {
-        src: `https://upload.wikimedia.org/wikipedia/commons/1/1f/Uganda_flag_and_national_anthem_-_Oh_Uganda_Land_o.ogg`,
+        src: `https://dll.z1.fm/music/9/6f/splin_-_doch_samuraja_(zvukoff.ru).mp3`,
         genre: `pop`,
       },
       {
-        src: `https://upload.wikimedia.org/wikipedia/commons/1/1f/Uganda_flag_and_national_anthem_-_Oh_Uganda_Land_o.ogg`,
+        src: `https://dll.z1.fm/music/9/6f/splin_-_doch_samuraja_(zvukoff.ru).mp3`,
         genre: `jazz`,
       },
       {
-        src: `https://upload.wikimedia.org/wikipedia/commons/1/1f/Uganda_flag_and_national_anthem_-_Oh_Uganda_Land_o.ogg`,
+        src: `https://dll.z1.fm/music/9/6f/splin_-_doch_samuraja_(zvukoff.ru).mp3`,
         genre: `rock`,
       },
     ],
@@ -25,12 +25,12 @@ export const questions = [
     type: `artist`,
     song: {
       artist: `Jim Beam`,
-      src: `https://upload.wikimedia.org/wikipedia/commons/1/1f/Uganda_flag_and_national_anthem_-_Oh_Uganda_Land_o.ogg`,
+      src: `https://dll.z1.fm/music/9/6f/splin_-_doch_samuraja_(zvukoff.ru).mp3`,
     },
     answers: [
       {
         picture: `http://placehold.it/134x134`,
-        artist: `John Snow`,
+        artist: `SPLIN`,
       },
       {
         picture: `http://placehold.it/134x134`,
