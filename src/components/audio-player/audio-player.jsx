@@ -69,7 +69,9 @@ export class AudioPlayer extends Component {
     if (this.props.isPlaying) {
       audio.play();
     } else {
-      audio.pause();
+      if (audio && audio.pause) {
+        audio.pause();
+      }
     }
   }
 
