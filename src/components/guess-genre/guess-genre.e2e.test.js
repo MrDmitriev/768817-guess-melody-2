@@ -17,6 +17,7 @@ it(`simulates click event for button components`, () => {
   };
 
   const expectedParam = {
+    activePlayer: -1,
     answer1: true,
     answer2: false,
     answer3: false,
