@@ -6,30 +6,39 @@ import {GuessGenre} from './guess-genre.jsx';
 Enzyme.configure({adapter: new Adapter()});
 
 it(`simulates click event for button components`, () => {
-  const onUserAnswer = jest.fn();
+  const incrementMistake = jest.fn();
+  const toggleGenreOption = jest.fn();
+  const incrementStep = jest.fn();
   const props = {
-    onAnswer: onUserAnswer,
     currentQuestion: {
       type: `genre`,
       genre: `rock`,
-      answers: [1, 2, 3],
+      answers: [
+        {
+          src: `AAA`,
+          genre: `rock`,
+        },
+      ],
     },
+    formGuessGenre: {
+      "answer1": false,
+    },
+    stepsLimit: 2,
+    mistakes: null,
+    mistakesLimit: 3,
+    incrementMistake,
+    toggleGenreOption,
+    incrementStep,
   };
 
-  const expectedParam = {
-    activePlayer: -1,
-    answer1: true,
-    answer2: false,
-    answer3: false,
-    answer4: false,
-  };
+  const expectedParam = `answer1`;
 
   const wrapper = shallow(<GuessGenre {...props} />);
 
   wrapper.find(`input`).first().simulate(`change`, {target: {value: `answer1`}});
   wrapper.find(`button`).last().simulate(`click`);
 
-  expect(onUserAnswer).toHaveBeenCalledWith(expectedParam);
+  expect(toggleGenreOption).toHaveBeenCalledWith(expectedParam);
 });
 
 

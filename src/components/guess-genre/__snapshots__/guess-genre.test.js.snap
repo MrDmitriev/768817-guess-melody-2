@@ -59,19 +59,6 @@ exports[`should match snapshot 1`] = `
         00
       </span>
     </div>
-    <div
-      className="game__mistakes"
-    >
-      <div
-        className="wrong"
-      />
-      <div
-        className="wrong"
-      />
-      <div
-        className="wrong"
-      />
-    </div>
   </header>
   <section
     className="game__screen"
@@ -186,7 +173,7 @@ exports[`should match snapshot 1`] = `
       </div>
       <button
         className="game__submit button"
-        onClick={[Function]}
+        onSubmit={[Function]}
         type="submit"
       >
         Ответить
