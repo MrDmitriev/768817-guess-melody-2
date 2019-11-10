@@ -3,6 +3,7 @@ import {GuessArtist} from './guess-artist.jsx';
 import renderer from 'react-test-renderer';
 
 jest.mock(`../mistakes-counter/mistakes-counter.jsx`, () => jest.fn().mockReturnValue(null));
+jest.mock(`../timer/timer.jsx`, () => jest.fn().mockReturnValue(null));
 
 it(`should match snapshot`, () => {
   const onUserAnswer = jest.fn();

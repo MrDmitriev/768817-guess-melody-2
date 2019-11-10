@@ -13,6 +13,11 @@ const initialState = {
   formGuessArtist: {
     choosedArtist: ``,
   },
+  timer: {
+    min: 5,
+    sec: 0,
+    secLeft: 300,
+  }
 };
 
 const incrementMistake = (currentQuestion, userAnswers, mistakes, mistakesLimit) => {
@@ -56,10 +61,39 @@ const toggleGenreOption = (option) => ({
   payload: option,
 });
 
+const tick = (timer) => {
+  const {secLeft} = timer;
+  const newSecLeft = secLeft - 1;
+
+  const type = newSecLeft < 0 ? `RESET_TIME` : `SET_TIME`;
+
+  const sec = newSecLeft % 60;
+  const min = Math.floor(newSecLeft / 60);
+
+  return {
+    type,
+    payload: {
+      min,
+      sec,
+      newSecLeft,
+    }
+  };
+
+};
+
+const showLoseTime = () => {
+  return {
+    type: `LOOSE_TIME`,
+    payload: {step: -2},
+  };
+};
+
 export const ActionCreator = {
   incrementStep,
   incrementMistake,
   toggleGenreOption,
+  tick,
+  showLoseTime,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -82,6 +116,31 @@ export const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {formGuessGenre: newFormGuessGenre});
     case `RESET`:
       return initialState;
+
+    case `SET_TIME`:
+      const newTimer = Object.assign({}, state.timer, {
+        min: action.payload.min,
+        sec: action.payload.sec,
+        secLeft: action.payload.newSecLeft,
+      });
+
+      return Object.assign({}, state, {
+        timer: newTimer,
+      });
+
+    case `RESET_TIME`:
+      const initialTimer = Object.assign({}, state.timer, {
+        min: initialState.timer.min,
+        sec: initialState.timer.sec,
+        secLeft: initialState.timer.secLeft,
+      });
+
+      return Object.assign({}, state, {
+        timer: initialTimer,
+      });
+
+    case `LOOSE_TIME`:
+      return Object.assign({}, state, {step: action.payload.step});
   }
 
   return state;

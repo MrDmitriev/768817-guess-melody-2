@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {AudioPlayer} from '../audio-player/audio-player.jsx';
 import MistakesCounter from '../mistakes-counter/mistakes-counter.jsx';
 import {ActionCreator} from '../../reducer.js';
+import Timer from '../timer/timer.jsx';
 
 export class GuessArtist extends React.PureComponent {
   constructor(props) {
@@ -36,12 +37,7 @@ export class GuessArtist extends React.PureComponent {
             <circle className="timer__line" cx="390" cy="390" r="370" style={{filter: `url(#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center`}} />
           </svg>
 
-          <div className="timer__value" xmlns="http://www.w3.org/1999/xhtml">
-            <span className="timer__mins">05</span>
-            <span className="timer__dots">:</span>
-            <span className="timer__secs">00</span>
-          </div>
-
+          <Timer />
           <MistakesCounter />
         </header>
 

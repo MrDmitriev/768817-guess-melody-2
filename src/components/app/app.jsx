@@ -5,11 +5,14 @@ import {connect} from 'react-redux';
 import WelcomeScreen from '../welcome-screen/welcome-screen.jsx';
 import GuessGenre from '../guess-genre/guess-genre.jsx';
 import GuessArtist from '../guess-artist/guess-artist.jsx';
+import {FailTime} from '../fail-time/fail-time.jsx';
 
 export class App extends React.PureComponent {
   static getScreen(step, questions) {
     if (step === -1) {
       return <WelcomeScreen />;
+    } else if (step === -2) {
+      return <FailTime />;
     }
 
     const currentQuestion = questions[step];
