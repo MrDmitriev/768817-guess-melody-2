@@ -1,30 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
-import {WelcomeScreen} from '../welcome-screen/welcome-screen.jsx';
-import {GuessGenre} from '../guess-genre/guess-genre.jsx';
-import {GuessArtist} from '../guess-artist/guess-artist.jsx';
+import WelcomeScreen from '../welcome-screen/welcome-screen.jsx';
+import GuessGenre from '../guess-genre/guess-genre.jsx';
+import GuessArtist from '../guess-artist/guess-artist.jsx';
+import {FailTime} from '../fail-time/fail-time.jsx';
 
 export class App extends React.PureComponent {
-  static getScreen(question, props, onUserAnswer) {
-    const {gameTime, errorCount, questions} = props;
-
-    if (question === -1) {
-      return <WelcomeScreen
-        gameTime={gameTime}
-        errorCount={errorCount}
-        onButtonClickHandler={onUserAnswer}
-        questions={questions}
-      />;
+  static getScreen(step, questions) {
+    if (step === -1) {
+      return <WelcomeScreen />;
+    } else if (step === -2) {
+      return <FailTime />;
     }
 
-    const currentQuestion = questions[question];
+    const currentQuestion = questions[step];
 
     switch (currentQuestion.type) {
       case `genre`:
-        return <GuessGenre currentQuestion={currentQuestion} onAnswer={onUserAnswer} />;
+        return <GuessGenre currentQuestion={currentQuestion} />;
       case `artist`:
-        return <GuessArtist currentQuestion={currentQuestion} onAnswer={onUserAnswer} />;
+        return <GuessArtist currentQuestion={currentQuestion} />;
     }
 
     return null;
@@ -32,32 +29,22 @@ export class App extends React.PureComponent {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      question: -1,
-    };
   }
 
   render() {
-    const {question} = this.state;
-    const {questions} = this.props;
+    const {step, questions} = this.props;
 
-    return App.getScreen(question, this.props, (answer) => {
-
-      return this.setState((prevState) => {
-        const nextIndex = prevState.question + 1;
-        const isEnd = nextIndex >= questions.length;
-        return {
-          question: !isEnd ? nextIndex : -1,
-          answer,
-        };
-      });
-    });
+    return App.getScreen(step, questions);
   }
 }
 
 App.propTypes = {
-  gameTime: PropTypes.number,
-  errorCount: PropTypes.number,
+  step: PropTypes.number,
   questions: PropTypes.arrayOf(PropTypes.object),
 };
+
+export default connect(
+    (state) => ({
+      step: state.step,
+    })
+)(App);

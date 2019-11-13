@@ -6,7 +6,8 @@ import {GuessArtist} from './guess-artist.jsx';
 Enzyme.configure({adapter: new Adapter()});
 
 it(`simulates change on input`, () => {
-  const onAnswer = jest.fn();
+  const incrementStep = jest.fn();
+  const incrementMistake = jest.fn();
   const props = {
     currentQuestion: {
       type: `artist`,
@@ -16,12 +17,16 @@ it(`simulates change on input`, () => {
       },
       answers: [1, 2, 3],
     },
-    onAnswer,
+    stepsLimit: 2,
+    mistakes: null,
+    mistakesLimit: 3,
+    incrementMistake,
+    incrementStep,
   };
 
   const wrapper = shallow(<GuessArtist {...props} />);
 
   wrapper.find(`input`).first().simulate(`change`, {target: {value: `artist1`}});
 
-  expect(onAnswer).toHaveBeenCalledWith(`artist1`);
+  expect(incrementMistake).toHaveBeenCalledWith(props.currentQuestion, `artist1`, props.mistakes, props.mistakesLimit);
 });

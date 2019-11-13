@@ -2,6 +2,9 @@ import React from 'react';
 import {GuessGenre} from './guess-genre.jsx';
 import renderer from 'react-test-renderer';
 
+jest.mock(`../mistakes-counter/mistakes-counter.jsx`, () => jest.fn().mockReturnValue(null));
+jest.mock(`../timer/timer.jsx`, () => jest.fn().mockReturnValue(null));
+
 it(`should match snapshot`, () => {
   const onUserAnswer = jest.fn();
   const props = {
@@ -12,6 +15,6 @@ it(`should match snapshot`, () => {
       answers: [1, 2, 3]
     }
   };
-  const guessArtist = renderer.create(<GuessGenre {...props} />).toJSON();
-  expect(guessArtist).toMatchSnapshot();
+  const guessGenre = renderer.create(<GuessGenre {...props} />).toJSON();
+  expect(guessGenre).toMatchSnapshot();
 });

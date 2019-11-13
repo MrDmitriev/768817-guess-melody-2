@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {ActionCreator} from '../../reducer.js';
 
 import {AudioPlayer} from '../audio-player/audio-player.jsx';
+import MistakesCounter from '../mistakes-counter/mistakes-counter.jsx';
+import Timer from '../timer/timer.jsx';
 
 export class GuessGenre extends React.PureComponent {
   constructor(props) {
@@ -18,19 +22,26 @@ export class GuessGenre extends React.PureComponent {
   }
 
   render() {
-    const {currentQuestion, onAnswer} = this.props;
+    const {
+      currentQuestion,
+      incrementMistake,
+      formGuessGenre,
+      toggleGenreOption,
+      incrementStep,
+      stepsLimit,
+      mistakes,
+      mistakesLimit
+    } = this.props;
 
-    const handleSubmit = () => {
-      onAnswer(this.state);
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      incrementStep(stepsLimit);
+      incrementMistake(currentQuestion, formGuessGenre, mistakes, mistakesLimit);
     };
 
     const handleAnswerCheck = (e) => {
       const currentAnswer = e.target.value;
-      this.setState((state) => {
-        return {
-          [currentAnswer]: !state.currentAnswer,
-        };
-      });
+      toggleGenreOption(currentAnswer);
     };
 
     return (
@@ -45,18 +56,8 @@ export class GuessGenre extends React.PureComponent {
             <circle className="timer__line" cx="390" cy="390" r="370"
               style={{filter: `url(#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center`}}/>
           </svg>
-
-          <div className="timer__value" xmlns="http://www.w3.org/1999/xhtml">
-            <span className="timer__mins">05</span>
-            <span className="timer__dots">:</span>
-            <span className="timer__secs">00</span>
-          </div>
-
-          <div className="game__mistakes">
-            <div className="wrong"></div>
-            <div className="wrong"></div>
-            <div className="wrong"></div>
-          </div>
+          <Timer />
+          <MistakesCounter />
         </header>
 
         <section className="game__screen">
@@ -93,7 +94,7 @@ export class GuessGenre extends React.PureComponent {
             <button
               className="game__submit button"
               type="submit"
-              onClick={handleSubmit}
+              onSubmit={handleSubmit}
             >
               Ответить
             </button>
@@ -105,6 +106,29 @@ export class GuessGenre extends React.PureComponent {
 }
 
 GuessGenre.propTypes = {
-  onAnswer: PropTypes.func,
   currentQuestion: PropTypes.object,
+  formGuessGenre: PropTypes.object,
+  stepsLimit: PropTypes.number,
+  mistakes: PropTypes.number,
+  mistakesLimit: PropTypes.number,
+  incrementMistake: PropTypes.func,
+  toggleGenreOption: PropTypes.func,
+  incrementStep: PropTypes.func,
 };
+
+export default connect(
+    (state) => ({
+      step: state.step,
+      mistakes: state.mistakes,
+      mistakesLimit: state.mistakesLimit,
+      formGuessGenre: state.formGuessGenre,
+      stepsLimit: state.stepsLimit,
+    }),
+    (dispatch) => ({
+      incrementMistake: (currentQuestion, answers, mistakes, mistakesLimit) => {
+        dispatch(ActionCreator.incrementMistake(currentQuestion, answers, mistakes, mistakesLimit));
+      },
+      toggleGenreOption: (option) => dispatch(ActionCreator.toggleGenreOption(option)),
+      incrementStep: (stepsLimit) => dispatch(ActionCreator.incrementStep(stepsLimit)),
+    })
+)(GuessGenre);

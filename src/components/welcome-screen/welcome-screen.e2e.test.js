@@ -7,17 +7,21 @@ Enzyme.configure({adapter: new Adapter()});
 
 describe(`WelcomeScreen - (component)`, () => {
   it(`simulates click event for button component`, () => {
-    const clickHanler = jest.fn();
+    const incrementStep = jest.fn();
+
+    const props = {
+      gameTime: 1,
+      stepsLimit: 2,
+      mistakesLimit: 3,
+      incrementStep,
+    };
+
     const wrapper = shallow(
-        <WelcomeScreen
-          gameTime={0}
-          errorCount={0}
-          onButtonClickHandler={clickHanler}
-        />
+        <WelcomeScreen {...props} />
     );
 
     wrapper.find(`button`).simulate(`click`);
 
-    expect(clickHanler).toHaveBeenCalledTimes(1);
+    expect(incrementStep).toHaveBeenCalledTimes(1);
   });
 });

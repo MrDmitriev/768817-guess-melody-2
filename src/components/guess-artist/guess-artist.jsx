@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 import {AudioPlayer} from '../audio-player/audio-player.jsx';
+import MistakesCounter from '../mistakes-counter/mistakes-counter.jsx';
+import {ActionCreator} from '../../reducer.js';
+import Timer from '../timer/timer.jsx';
 
 export class GuessArtist extends React.PureComponent {
   constructor(props) {
@@ -14,10 +18,11 @@ export class GuessArtist extends React.PureComponent {
   }
 
   render() {
-    const {currentQuestion, onAnswer} = this.props;
+    const {currentQuestion, incrementMistake, stepsLimit, incrementStep, mistakes, mistakesLimit} = this.props;
     const {song} = currentQuestion;
     const handleChange = (evt) => {
-      return onAnswer(evt.target.value);
+      incrementStep(stepsLimit);
+      incrementMistake(currentQuestion, evt.target.value, mistakes, mistakesLimit);
     };
 
     return (
@@ -32,17 +37,8 @@ export class GuessArtist extends React.PureComponent {
             <circle className="timer__line" cx="390" cy="390" r="370" style={{filter: `url(#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center`}} />
           </svg>
 
-          <div className="timer__value" xmlns="http://www.w3.org/1999/xhtml">
-            <span className="timer__mins">05</span>
-            <span className="timer__dots">:</span>
-            <span className="timer__secs">00</span>
-          </div>
-
-          <div className="game__mistakes">
-            <div className="wrong"></div>
-            <div className="wrong"></div>
-            <div className="wrong"></div>
-          </div>
+          <Timer />
+          <MistakesCounter />
         </header>
 
         <section className="game__screen">
@@ -62,17 +58,18 @@ export class GuessArtist extends React.PureComponent {
           <form className="game__artist">
             {
               currentQuestion.answers.map((item, i) => {
+                const currentValue = item.artist;
                 return (
                   <div className="artist" key={item + i}>
                     <input
                       className="artist__input visually-hidden"
                       type="radio"
                       name={`artist-${i + 1}`}
-                      value={`artist-${i + 1}`}
-                      id="answer-1"
+                      value={currentValue}
+                      id={`artist-${i + 1}`}
                       onChange={handleChange}
                     />
-                    <label className="artist__name" htmlFor="answer-1">
+                    <label className="artist__name" htmlFor={`artist-${i + 1}`}>
                       <img className="artist__picture" src={item.picture} alt={item.artist} />
                       {item.artist}
                     </label>
@@ -88,6 +85,25 @@ export class GuessArtist extends React.PureComponent {
 }
 
 GuessArtist.propTypes = {
-  onAnswer: PropTypes.func,
   currentQuestion: PropTypes.object,
+  stepsLimit: PropTypes.number,
+  mistakes: PropTypes.number,
+  mistakesLimit: PropTypes.number,
+  incrementMistake: PropTypes.func,
+  incrementStep: PropTypes.func,
 };
+
+export default connect(
+    (state) => ({
+      step: state.step,
+      stepsLimit: state.stepsLimit,
+      mistakes: state.mistakes,
+      mistakesLimit: state.mistakesLimit,
+    }),
+    (dispatch) => ({
+      incrementStep: (stepsLimit) => dispatch(ActionCreator.incrementStep(stepsLimit)),
+      incrementMistake: (currentQuestion, answers, mistakes, mistakesLimit) => {
+        dispatch(ActionCreator.incrementMistake(currentQuestion, answers, mistakes, mistakesLimit));
+      },
+    })
+)(GuessArtist);

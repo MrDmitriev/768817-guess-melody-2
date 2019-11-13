@@ -39,39 +39,6 @@ exports[`should match snapshot 1`] = `
         }
       />
     </svg>
-    <div
-      className="timer__value"
-      xmlns="http://www.w3.org/1999/xhtml"
-    >
-      <span
-        className="timer__mins"
-      >
-        05
-      </span>
-      <span
-        className="timer__dots"
-      >
-        :
-      </span>
-      <span
-        className="timer__secs"
-      >
-        00
-      </span>
-    </div>
-    <div
-      className="game__mistakes"
-    >
-      <div
-        className="wrong"
-      />
-      <div
-        className="wrong"
-      />
-      <div
-        className="wrong"
-      />
-    </div>
   </header>
   <section
     className="game__screen"
@@ -108,15 +75,14 @@ exports[`should match snapshot 1`] = `
       >
         <input
           className="artist__input visually-hidden"
-          id="answer-1"
+          id="artist-1"
           name="artist-1"
           onChange={[Function]}
           type="radio"
-          value="artist-1"
         />
         <label
           className="artist__name"
-          htmlFor="answer-1"
+          htmlFor="artist-1"
         >
           <img
             className="artist__picture"
@@ -128,15 +94,14 @@ exports[`should match snapshot 1`] = `
       >
         <input
           className="artist__input visually-hidden"
-          id="answer-1"
+          id="artist-2"
           name="artist-2"
           onChange={[Function]}
           type="radio"
-          value="artist-2"
         />
         <label
           className="artist__name"
-          htmlFor="answer-1"
+          htmlFor="artist-2"
         >
           <img
             className="artist__picture"
@@ -148,15 +113,14 @@ exports[`should match snapshot 1`] = `
       >
         <input
           className="artist__input visually-hidden"
-          id="answer-1"
+          id="artist-3"
           name="artist-3"
           onChange={[Function]}
           type="radio"
-          value="artist-3"
         />
         <label
           className="artist__name"
-          htmlFor="answer-1"
+          htmlFor="artist-3"
         >
           <img
             className="artist__picture"

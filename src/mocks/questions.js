@@ -24,7 +24,7 @@ export const questions = [
   {
     type: `artist`,
     song: {
-      artist: `Jim Beam`,
+      artist: `SPLIN`,
       src: `https://dll.z1.fm/music/9/6f/splin_-_doch_samuraja_(zvukoff.ru).mp3`,
     },
     answers: [
