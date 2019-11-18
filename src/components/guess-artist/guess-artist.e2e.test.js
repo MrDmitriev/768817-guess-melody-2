@@ -8,6 +8,7 @@ Enzyme.configure({adapter: new Adapter()});
 it(`simulates change on input`, () => {
   const incrementStep = jest.fn();
   const incrementMistake = jest.fn();
+  const renderPlayer = jest.fn();
   const props = {
     currentQuestion: {
       type: `artist`,
@@ -22,6 +23,7 @@ it(`simulates change on input`, () => {
     mistakesLimit: 3,
     incrementMistake,
     incrementStep,
+    renderPlayer,
   };
 
   const wrapper = shallow(<GuessArtist {...props} />);

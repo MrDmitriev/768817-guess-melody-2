@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {AudioPlayer} from '../audio-player/audio-player.jsx';
 import MistakesCounter from '../mistakes-counter/mistakes-counter.jsx';
 import {ActionCreator} from '../../reducer.js';
 import Timer from '../timer/timer.jsx';
@@ -10,15 +9,10 @@ import Timer from '../timer/timer.jsx';
 export class GuessArtist extends React.PureComponent {
   constructor(props) {
     super(props);
-
-    this.state = {
-      activePlayer: false,
-    };
-
   }
 
   render() {
-    const {currentQuestion, incrementMistake, stepsLimit, incrementStep, mistakes, mistakesLimit} = this.props;
+    const {currentQuestion, incrementMistake, stepsLimit, incrementStep, mistakes, mistakesLimit, renderPlayer} = this.props;
     const {song} = currentQuestion;
     const handleChange = (evt) => {
       incrementStep(stepsLimit);
@@ -45,13 +39,7 @@ export class GuessArtist extends React.PureComponent {
           <h2 className="game__title">Кто исполняет эту песню?</h2>
           <div className="game__track">
             <div className="track">
-              <AudioPlayer
-                src={song.src}
-                isPlaying={this.state.activePlayer}
-                onPlayButtonClick={() => this.setState({
-                  activePlayer: !this.state.activePlayer
-                })}
-              />
+              {renderPlayer(song, 0)}
             </div>
           </div>
 
@@ -91,6 +79,7 @@ GuessArtist.propTypes = {
   mistakesLimit: PropTypes.number,
   incrementMistake: PropTypes.func,
   incrementStep: PropTypes.func,
+  renderPlayer: PropTypes.func.isRequired,
 };
 
 export default connect(
