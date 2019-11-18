@@ -9,6 +9,7 @@ it(`simulates click event for button components`, () => {
   const incrementMistake = jest.fn();
   const toggleGenreOption = jest.fn();
   const incrementStep = jest.fn();
+  const renderPlayer = jest.fn();
   const props = {
     currentQuestion: {
       type: `genre`,
@@ -29,6 +30,7 @@ it(`simulates click event for button components`, () => {
     incrementMistake,
     toggleGenreOption,
     incrementStep,
+    renderPlayer
   };
 
   const expectedParam = `answer1`;

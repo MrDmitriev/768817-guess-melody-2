@@ -6,6 +6,10 @@ import WelcomeScreen from '../welcome-screen/welcome-screen.jsx';
 import GuessGenre from '../guess-genre/guess-genre.jsx';
 import GuessArtist from '../guess-artist/guess-artist.jsx';
 import {FailTime} from '../fail-time/fail-time.jsx';
+import withActivePlayer from '../../hocs/with-active-player/with-active-player.js';
+
+const GuessGenreWrapped = withActivePlayer(GuessGenre);
+const GuessArtistWrapped = withActivePlayer(GuessArtist);
 
 export class App extends React.PureComponent {
   static getScreen(step, questions) {
@@ -19,9 +23,9 @@ export class App extends React.PureComponent {
 
     switch (currentQuestion.type) {
       case `genre`:
-        return <GuessGenre currentQuestion={currentQuestion} />;
+        return <GuessGenreWrapped currentQuestion={currentQuestion} />;
       case `artist`:
-        return <GuessArtist currentQuestion={currentQuestion} />;
+        return <GuessArtistWrapped currentQuestion={currentQuestion} />;
     }
 
     return null;

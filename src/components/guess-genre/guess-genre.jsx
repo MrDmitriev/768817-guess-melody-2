@@ -3,24 +3,10 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../reducer.js';
 
-import {AudioPlayer} from '../audio-player/audio-player.jsx';
 import MistakesCounter from '../mistakes-counter/mistakes-counter.jsx';
 import Timer from '../timer/timer.jsx';
 
 export class GuessGenre extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      answer1: false,
-      answer2: false,
-      answer3: false,
-      answer4: false,
-      activePlayer: -1,
-    };
-
-  }
-
   render() {
     const {
       currentQuestion,
@@ -30,7 +16,8 @@ export class GuessGenre extends React.PureComponent {
       incrementStep,
       stepsLimit,
       mistakes,
-      mistakesLimit
+      mistakesLimit,
+      renderPlayer,
     } = this.props;
 
     const handleSubmit = (e) => {
@@ -68,13 +55,7 @@ export class GuessGenre extends React.PureComponent {
               currentQuestion.answers.map((item, i) => {
                 return (
                   <div className="track" key={`answer-${i + 1}`}>
-                    <AudioPlayer
-                      src={item.src}
-                      isPlaying={i === this.state.activePlayer}
-                      onPlayButtonClick={() => this.setState({
-                        activePlayer: this.state.activePlayer === i ? -1 : i
-                      })}
-                    />
+                    {renderPlayer(item, i)}
                     <div className="game__answer">
                       <input
                         className="game__input visually-hidden"
@@ -114,6 +95,7 @@ GuessGenre.propTypes = {
   incrementMistake: PropTypes.func,
   toggleGenreOption: PropTypes.func,
   incrementStep: PropTypes.func,
+  renderPlayer: PropTypes.func.isRequired
 };
 
 export default connect(
