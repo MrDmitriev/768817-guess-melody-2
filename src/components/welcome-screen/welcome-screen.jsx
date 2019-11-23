@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {ActionCreator} from '../../reducer.js';
+import {ActionCreator, loadQuestions} from '../../reducer.js';
 
 export class WelcomeScreen extends React.PureComponent {
   render() {
@@ -31,6 +31,11 @@ export class WelcomeScreen extends React.PureComponent {
       </section>
     );
   }
+
+  componentDidMount() {
+    console.log(`mounted`);
+    this.props.startUpQuestion();
+  }
 }
 
 WelcomeScreen.propTypes = {
@@ -49,5 +54,6 @@ export default connect(
     }),
     (dispatch) => ({
       incrementStep: (stepsLimit) => dispatch(ActionCreator.incrementStep(stepsLimit)),
+      startUpQuestion: () => dispatch(loadQuestions()),
     })
 )(WelcomeScreen);

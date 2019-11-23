@@ -1,4 +1,7 @@
+import createAPI from './api/api.js';
+
 const initialState = {
+  questions: [],
   mistakes: null,
   mistakesLimit: 3,
   step: -1,
@@ -88,12 +91,21 @@ const showLoseTime = () => {
   };
 };
 
+export const loadQuestions = () => (dispatch, getState, api) => {
+  console.log(`start load`, api);
+  return api.get(`/questions`)
+  .then((response) => {
+    console.log(`response`, response);
+  });
+};
+
 export const ActionCreator = {
   incrementStep,
   incrementMistake,
   toggleGenreOption,
   tick,
   showLoseTime,
+  // setQuestions,
 };
 
 export const reducer = (state = initialState, action) => {
