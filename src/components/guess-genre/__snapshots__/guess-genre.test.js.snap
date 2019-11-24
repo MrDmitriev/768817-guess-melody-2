@@ -59,16 +59,16 @@ exports[`should match snapshot 1`] = `
           className="game__answer"
         >
           <input
+            checked={false}
             className="game__input visually-hidden"
-            id="answer-1"
-            name="answer-1"
+            id="answer1"
             onChange={[Function]}
             type="checkbox"
             value="answer1"
           />
           <label
             className="game__check"
-            htmlFor="answer-1"
+            htmlFor="answer1"
           >
             Отметить
           </label>
@@ -82,15 +82,14 @@ exports[`should match snapshot 1`] = `
         >
           <input
             className="game__input visually-hidden"
-            id="answer-2"
-            name="answer-2"
+            id="answer2"
             onChange={[Function]}
             type="checkbox"
             value="answer2"
           />
           <label
             className="game__check"
-            htmlFor="answer-2"
+            htmlFor="answer2"
           >
             Отметить
           </label>
@@ -104,15 +103,14 @@ exports[`should match snapshot 1`] = `
         >
           <input
             className="game__input visually-hidden"
-            id="answer-3"
-            name="answer-3"
+            id="answer3"
             onChange={[Function]}
             type="checkbox"
             value="answer3"
           />
           <label
             className="game__check"
-            htmlFor="answer-3"
+            htmlFor="answer3"
           >
             Отметить
           </label>

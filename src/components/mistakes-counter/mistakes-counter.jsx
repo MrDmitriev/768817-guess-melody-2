@@ -21,6 +21,6 @@ MistakesCounter.propTypes = {
 
 export default connect(
     (state) => ({
-      mistakes: state.mistakes,
+      mistakes: state.game.mistakes,
     })
 )(MistakesCounter);

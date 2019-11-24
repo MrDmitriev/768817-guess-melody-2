@@ -49,6 +49,7 @@ App.propTypes = {
 
 export default connect(
     (state) => ({
-      step: state.step,
+      step: state.game.step,
+      questions: state.data.questions,
     })
 )(App);

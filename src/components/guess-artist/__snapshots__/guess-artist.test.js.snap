@@ -65,7 +65,7 @@ exports[`should match snapshot 1`] = `
           className="artist__input visually-hidden"
           id="artist-1"
           name="artist-1"
-          onChange={[Function]}
+          onClick={[Function]}
           type="radio"
         />
         <label
@@ -84,7 +84,7 @@ exports[`should match snapshot 1`] = `
           className="artist__input visually-hidden"
           id="artist-2"
           name="artist-2"
-          onChange={[Function]}
+          onClick={[Function]}
           type="radio"
         />
         <label
@@ -103,7 +103,7 @@ exports[`should match snapshot 1`] = `
           className="artist__input visually-hidden"
           id="artist-3"
           name="artist-3"
-          onChange={[Function]}
+          onClick={[Function]}
           type="radio"
         />
         <label

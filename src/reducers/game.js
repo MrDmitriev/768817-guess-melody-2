@@ -1,18 +1,12 @@
+import {getCurrentStep, getStepsLimit, getMistakes, getMistakesLimit} from '../selectors/game.js';
+import {resetFormData} from './player.js';
+
 const initialState = {
   mistakes: null,
   mistakesLimit: 3,
   step: -1,
   stepsLimit: 2,
   gameTime: 5,
-  formGuessGenre: {
-    "answer1": false,
-    "answer2": false,
-    "answer3": false,
-    "answer4": false,
-  },
-  formGuessArtist: {
-    choosedArtist: ``,
-  },
   timer: {
     min: 5,
     sec: 0,
@@ -20,7 +14,10 @@ const initialState = {
   }
 };
 
-const incrementMistake = (currentQuestion, userAnswers, mistakes, mistakesLimit) => {
+const incrementMistake = (currentQuestion, userAnswers) => (dispatch, getState) => {
+  const mistakes = getMistakes(getState());
+  const mistakesLimit = getMistakesLimit(getState());
+
   let type = `INCREMENT_MISTAKE`;
   let answerCorrect = true;
 
@@ -45,21 +42,24 @@ const incrementMistake = (currentQuestion, userAnswers, mistakes, mistakesLimit)
   if (!answerCorrect) {
     type = mistakes + 1 === mistakesLimit ? `RESET` : `INCREMENT_MISTAKE`;
   }
-  return {
+  dispatch({
     type,
     payload: answerCorrect ? 0 : 1,
-  };
+  });
 };
 
-const incrementStep = (stepsLimit) => ({
-  type: `INCREMENT_STEP`,
-  payload: stepsLimit,
-});
+const incrementStep = () => (dispatch, getState) => {
+  const currentStep = getCurrentStep(getState());
+  const nextStep = currentStep + 1;
+  const stepsLimit = getStepsLimit(getState());
 
-const toggleGenreOption = (option) => ({
-  type: `TOGGLE_GENRE`,
-  payload: option,
-});
+  const newStepValue = nextStep > stepsLimit ? -1 : nextStep;
+  dispatch({
+    type: `INCREMENT_STEP`,
+    payload: newStepValue,
+  });
+  dispatch(resetFormData());
+};
 
 const tick = (timer) => {
   const {secLeft} = timer;
@@ -78,7 +78,6 @@ const tick = (timer) => {
       newSecLeft,
     }
   };
-
 };
 
 const showLoseTime = () => {
@@ -88,34 +87,34 @@ const showLoseTime = () => {
   };
 };
 
+export const setStepsLimit = (stepsLimit) => ({
+  type: `SET_STEPS_LIMIT`,
+  payload: stepsLimit
+});
+
 export const ActionCreator = {
   incrementStep,
   incrementMistake,
-  toggleGenreOption,
   tick,
   showLoseTime,
+  setStepsLimit,
 };
 
-export const reducer = (state = initialState, action) => {
+const game = (state = initialState, action) => {
   switch (action.type) {
     case `INCREMENT_STEP`:
-      const nextStep = state.step + 1;
       return Object.assign({}, state, {
-        step: nextStep >= action.payload ? -1 : nextStep,
+        step: action.payload,
         formGuessGenre: initialState.formGuessGenre,
       });
+
     case `INCREMENT_MISTAKE`:
       return Object.assign({}, state, {
         mistakes: state.mistakes + action.payload,
       });
-    case `TOGGLE_GENRE`:
-      const newFormGuessGenre = Object.assign({}, state.formGuessGenre, {
-        [action.payload]: !state.formGuessGenre[action.payload],
-      });
 
-      return Object.assign({}, state, {formGuessGenre: newFormGuessGenre});
-    case `RESET`:
-      return initialState;
+    case `SET_STEPS_LIMIT`:
+      return Object.assign({}, state, {stepsLimit: action.payload});
 
     case `SET_TIME`:
       const newTimer = Object.assign({}, state.timer, {
@@ -141,7 +140,12 @@ export const reducer = (state = initialState, action) => {
 
     case `LOOSE_TIME`:
       return Object.assign({}, state, {step: action.payload.step});
+
+    case `RESET`:
+      return initialState;
   }
 
   return state;
 };
+
+export default game;

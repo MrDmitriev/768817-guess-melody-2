@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import MistakesCounter from '../mistakes-counter/mistakes-counter.jsx';
-import {ActionCreator} from '../../reducer.js';
+import {ActionCreator} from '../../reducers/index.js';
 import Timer from '../timer/timer.jsx';
 
 export class GuessArtist extends React.PureComponent {
@@ -55,7 +55,7 @@ export class GuessArtist extends React.PureComponent {
                       name={`artist-${i + 1}`}
                       value={currentValue}
                       id={`artist-${i + 1}`}
-                      onChange={handleChange}
+                      onClick={handleChange}
                     />
                     <label className="artist__name" htmlFor={`artist-${i + 1}`}>
                       <img className="artist__picture" src={item.picture} alt={item.artist} />
@@ -84,15 +84,12 @@ GuessArtist.propTypes = {
 
 export default connect(
     (state) => ({
-      step: state.step,
-      stepsLimit: state.stepsLimit,
-      mistakes: state.mistakes,
-      mistakesLimit: state.mistakesLimit,
+      step: state.game.step,
     }),
     (dispatch) => ({
-      incrementStep: (stepsLimit) => dispatch(ActionCreator.incrementStep(stepsLimit)),
-      incrementMistake: (currentQuestion, answers, mistakes, mistakesLimit) => {
-        dispatch(ActionCreator.incrementMistake(currentQuestion, answers, mistakes, mistakesLimit));
+      incrementStep: () => dispatch(ActionCreator.incrementStep()),
+      incrementMistake: (currentQuestion, answers) => {
+        dispatch(ActionCreator.incrementMistake(currentQuestion, answers));
       },
     })
 )(GuessArtist);
