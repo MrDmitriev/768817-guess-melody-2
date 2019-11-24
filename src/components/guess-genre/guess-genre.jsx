@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../reducer.js';
+import {ActionCreator} from '../../reducers/index.js';
 
 import MistakesCounter from '../mistakes-counter/mistakes-counter.jsx';
 import Timer from '../timer/timer.jsx';
@@ -14,16 +14,13 @@ export class GuessGenre extends React.PureComponent {
       formGuessGenre,
       toggleGenreOption,
       incrementStep,
-      stepsLimit,
-      mistakes,
-      mistakesLimit,
       renderPlayer,
     } = this.props;
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      incrementStep(stepsLimit);
-      incrementMistake(currentQuestion, formGuessGenre, mistakes, mistakesLimit);
+      incrementStep();
+      incrementMistake(currentQuestion, formGuessGenre);
     };
 
     const handleAnswerCheck = (e) => {
@@ -53,19 +50,20 @@ export class GuessGenre extends React.PureComponent {
 
             {
               currentQuestion.answers.map((item, i) => {
+                const uniqueName = `answer${i + 1}`;
                 return (
-                  <div className="track" key={`answer-${i + 1}`}>
+                  <div className="track" key={uniqueName}>
                     {renderPlayer(item, i)}
                     <div className="game__answer">
                       <input
                         className="game__input visually-hidden"
                         type="checkbox"
-                        name={`answer-${i + 1}`}
-                        value={`answer${i + 1}`}
-                        id={`answer-${i + 1}`}
+                        value={uniqueName}
+                        id={uniqueName}
                         onChange={handleAnswerCheck}
+                        checked={formGuessGenre[uniqueName]}
                       />
-                      <label className="game__check" htmlFor={`answer-${i + 1}`}>Отметить</label>
+                      <label className="game__check" htmlFor={uniqueName}>Отметить</label>
                     </div>
                   </div>
                 );
@@ -89,9 +87,6 @@ export class GuessGenre extends React.PureComponent {
 GuessGenre.propTypes = {
   currentQuestion: PropTypes.object,
   formGuessGenre: PropTypes.object,
-  stepsLimit: PropTypes.number,
-  mistakes: PropTypes.number,
-  mistakesLimit: PropTypes.number,
   incrementMistake: PropTypes.func,
   toggleGenreOption: PropTypes.func,
   incrementStep: PropTypes.func,
@@ -100,17 +95,17 @@ GuessGenre.propTypes = {
 
 export default connect(
     (state) => ({
-      step: state.step,
-      mistakes: state.mistakes,
-      mistakesLimit: state.mistakesLimit,
-      formGuessGenre: state.formGuessGenre,
-      stepsLimit: state.stepsLimit,
+      step: state.game.step,
+      mistakes: state.game.mistakes,
+      mistakesLimit: state.game.mistakesLimit,
+      formGuessGenre: state.player.formGuessGenre,
+      stepsLimit: state.game.stepsLimit,
     }),
     (dispatch) => ({
-      incrementMistake: (currentQuestion, answers, mistakes, mistakesLimit) => {
-        dispatch(ActionCreator.incrementMistake(currentQuestion, answers, mistakes, mistakesLimit));
+      incrementMistake: (currentQuestion, answers) => {
+        dispatch(ActionCreator.incrementMistake(currentQuestion, answers));
       },
       toggleGenreOption: (option) => dispatch(ActionCreator.toggleGenreOption(option)),
-      incrementStep: (stepsLimit) => dispatch(ActionCreator.incrementStep(stepsLimit)),
+      incrementStep: () => dispatch(ActionCreator.incrementStep()),
     })
 )(GuessGenre);

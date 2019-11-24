@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {ActionCreator} from '../../reducer.js';
+import {ActionCreator} from '../../reducers/index.js';
 
 export class Timer extends Component {
   render() {
@@ -42,7 +42,7 @@ Timer.propTypes = {
 
 export default connect(
     (state) => ({
-      timer: state.timer,
+      timer: state.game.timer,
     }),
     (dispatch) => ({
       tick: (timer) => dispatch(ActionCreator.tick(timer)),

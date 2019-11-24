@@ -15,6 +15,9 @@ it(`should match snapshot`, () => {
       genre: `rock`,
       answers: [1, 2, 3]
     },
+    formGuessGenre: {
+      answer1: false
+    },
     renderPlayer
   };
   const guessGenre = renderer.create(<GuessGenre {...props} />).toJSON();

@@ -28,7 +28,7 @@ it(`simulates change on input`, () => {
 
   const wrapper = shallow(<GuessArtist {...props} />);
 
-  wrapper.find(`input`).first().simulate(`change`, {target: {value: `artist1`}});
+  wrapper.find(`input`).first().simulate(`click`, {target: {value: `artist1`}});
 
   expect(incrementMistake).toHaveBeenCalledWith(props.currentQuestion, `artist1`, props.mistakes, props.mistakesLimit);
 });

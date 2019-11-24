@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {ActionCreator, loadQuestions} from '../../reducer.js';
+import {ActionCreator} from '../../reducers/index.js';
+import {loadQuestions} from '../../reducers/data.js';
 
 export class WelcomeScreen extends React.PureComponent {
   render() {
@@ -33,7 +34,6 @@ export class WelcomeScreen extends React.PureComponent {
   }
 
   componentDidMount() {
-    console.log(`mounted`);
     this.props.startUpQuestion();
   }
 }
@@ -43,17 +43,16 @@ WelcomeScreen.propTypes = {
   stepsLimit: PropTypes.number,
   mistakesLimit: PropTypes.number,
   incrementStep: PropTypes.func,
+  startUpQuestion: PropTypes.func,
 };
 
 export default connect(
     (state) => ({
-      step: state.step,
-      stepsLimit: state.stepsLimit,
-      gameTime: state.gameTime,
-      mistakesLimit: state.mistakesLimit,
+      step: state.game.step,
+      gameTime: state.game.gameTime,
     }),
     (dispatch) => ({
-      incrementStep: (stepsLimit) => dispatch(ActionCreator.incrementStep(stepsLimit)),
+      incrementStep: () => dispatch(ActionCreator.incrementStep()),
       startUpQuestion: () => dispatch(loadQuestions()),
     })
 )(WelcomeScreen);
