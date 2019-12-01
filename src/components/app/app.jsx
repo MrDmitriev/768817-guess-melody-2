@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import WelcomeScreen from '../welcome-screen/welcome-screen.jsx';
+import AuthorizationScreen from '../authorization-screen/authorization-screen.jsx';
 import GuessGenre from '../guess-genre/guess-genre.jsx';
 import GuessArtist from '../guess-artist/guess-artist.jsx';
 import {FailTime} from '../fail-time/fail-time.jsx';
@@ -12,7 +13,11 @@ const GuessGenreWrapped = withActivePlayer(GuessGenre);
 const GuessArtistWrapped = withActivePlayer(GuessArtist);
 
 export class App extends React.PureComponent {
-  static getScreen(step, questions) {
+  static getScreen(step, questions, isAuthorizationRequired) {
+    if (isAuthorizationRequired) {
+      return <AuthorizationScreen />;
+    }
+
     if (step === -1) {
       return <WelcomeScreen />;
     } else if (step === -2) {
@@ -36,20 +41,22 @@ export class App extends React.PureComponent {
   }
 
   render() {
-    const {step, questions} = this.props;
+    const {step, questions, isAuthorizationRequired} = this.props;
 
-    return App.getScreen(step, questions);
+    return App.getScreen(step, questions, isAuthorizationRequired);
   }
 }
 
 App.propTypes = {
   step: PropTypes.number,
   questions: PropTypes.arrayOf(PropTypes.object),
+  isAuthorizationRequired: PropTypes.bool,
 };
 
 export default connect(
     (state) => ({
       step: state.game.step,
       questions: state.data.questions,
+      isAuthorizationRequired: state.player.isAuthorizationRequired,
     })
 )(App);
